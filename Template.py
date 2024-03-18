@@ -1,6 +1,6 @@
+import logging
 import os
 from pathlib import Path
-import logging
 
 logging.basicConfig(level=logging.INFO, format='[%(asctime)s]: %(message)s:')
 
@@ -21,7 +21,8 @@ list_of_file = [
 	"param.yaml",
 	"requirements.txt",
 	"setup.py",
-	"research/trails.ipynb"
+	"research/trails.ipynb",
+	"templates/index.html"
 ]
 
 for filepath in list_of_file:
