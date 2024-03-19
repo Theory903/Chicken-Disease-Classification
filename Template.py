@@ -1,10 +1,9 @@
 import logging
-import os
 from pathlib import Path
 
 logging.basicConfig(level=logging.INFO, format='[%(asctime)s]: %(message)s:')
 
-project_name = "Chicken Disease Detection"
+project_name = "cnnClassifier"
 
 list_of_file = [
 	".github/workflows/.gitkeep",
@@ -25,19 +24,25 @@ list_of_file = [
 	"templates/index.html"
 ]
 
-for filepath in list_of_file:
-	filepath = Path(filepath)
-	filedir, filename = os.path.split(filepath)
 
-	if filedir != "":
-		os.makedirs(filedir, exist_ok=True)
-		logging.info(f"Creating Directory for {filedir}, filename: {filename}")
-	if (not os.path.exists(filepath)) or (os.path.getsize(filepath) == 0):
-		with open(filepath, "w") as f:
-			pass
-			logging.info(f"creating empty file: {filepath}")
+def create_file(filepath):
+	if not filepath.exists() or filepath.stat().st_size == 0:
+		filepath.touch()
+		logging.info(f"Created empty file: {filepath}")
 	else:
-		logging.info(f"{filename} is already created")
+		logging.info(f"{filepath.name} already exists")
 
 
+def create_directory(directory):
+	directory.mkdir(parents=True, exist_ok=True)
+	logging.info(f"Created directory: {directory}")
 
+
+for item in list_of_file:
+	path = Path(item)
+	if path.is_dir():
+		create_directory(path)
+	elif path.is_file():
+		create_file(path)
+	else:
+		logging.warning(f"Illegal path: {path}")
